@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -46,4 +48,25 @@ public class TenantService {
         log.info("Tenant registered successfully with id {}", savedTenant.getId());
         return savedTenant;
     }
+
+
+    @Transactional(readOnly = true)
+    public Tenant getTenantById(Long tenantId) {
+        return tenantRepository.findById(tenantId)
+                .orElseThrow(() -> new IllegalArgumentException("Tenant not found with id " + tenantId));
+    }
+
+
+
+
+    public List<Tenant> getAllTenantsByOwnerId(Long ownerId) {
+        return tenantRepository.findAllByRoom_Pg_Owner_Id(ownerId);
+    }
+
+//    public List<Tenant> getAllTenantsByOwnerId(Long ownerId) {
+//        return tenantRepository.findAllByOwnerId(ownerId);
+//    }
+
+
+
 }

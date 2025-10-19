@@ -1,21 +1,18 @@
 package com.apnapg.entity;
 
-import com.apnapg.enums.Gender;
-import com.apnapg.enums.Occupation;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Table(name = "tenants", indexes = {@Index(columnList = "email")})
+@Table(name = "owners", indexes = {@Index(columnList = "email")})
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "user")
-public class Tenant {
+public class Owner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,26 +25,15 @@ public class Tenant {
     private String email;
 
     private String phoneNumber;
-    private String aadhaarUrl;
-
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-
-    @Enumerated(EnumType.STRING)
-    private Occupation occupation;
-
-    private LocalDate dateOfBirth;
     private String address;
-
-    private String emergencyContactName;
-    private String emergencyContactNumber;
+    private String businessName;
+    private String gstNumber;
+    private String profileImageUrl;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
-
-    @ManyToOne
-    @JoinColumn(name = "room_id")
-    private Room room;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PG> pgs;
 }

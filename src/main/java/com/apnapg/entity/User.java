@@ -28,4 +28,9 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Tenant tenant;
+
+    @OneToOne(mappedBy = "user")
+    private Owner owner;
+
+
 }
