@@ -1,6 +1,7 @@
 package com.apnapg.service;
 
 import com.apnapg.dto.TenantRegistrationDTO;
+import com.apnapg.dto.TenantResponseDTO;
 import com.apnapg.entity.Tenant;
 import com.apnapg.entity.User;
 import com.apnapg.enums.Role;
@@ -25,6 +26,38 @@ public class TenantService {
     private final FileStorageService fileStorageService;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+//    @Transactional
+//    public TenantResponseDTO registerTenant(TenantRegistrationDTO dto, byte[] aadhaarFileBytes, String fileName) {
+//        log.info("Registering tenant with email {}", dto.email());
+//
+//        if (userRepository.findByEmail(dto.email()).isPresent()) {
+//            throw new IllegalArgumentException("User with email " + dto.email() + " already exists.");
+//        }
+//
+//        String encryptedPassword = passwordEncoder.encode(dto.password());
+//        User user = User.builder()
+//                .email(dto.email())
+//                .password(encryptedPassword)
+//                .role(Role.TENANT)
+//                .build();
+//        userRepository.save(user);
+//
+//        String aadhaarUrl = fileStorageService.saveFile(aadhaarFileBytes, fileName);
+//        Tenant tenant = TenantMapper.toEntity(dto, aadhaarUrl, user);
+//        Tenant savedTenant = tenantRepository.save(tenant);
+//
+//        log.info("Tenant registered successfully with id {}", savedTenant.getId());
+//
+//        return new TenantResponseDTO(
+//                savedTenant.getId(),
+//                savedTenant.getFirstName(),
+//                savedTenant.getLastName(),
+//                savedTenant.getEmail(),
+//                savedTenant.getPhoneNumber(),
+//                savedTenant.getAadhaarUrl()
+//        );
+//    }
+
     @Transactional
     public Tenant registerTenant(TenantRegistrationDTO dto, byte[] aadhaarFileBytes, String fileName) {
         log.info("Registering tenant with email {}", dto.email());
@@ -48,6 +81,9 @@ public class TenantService {
         log.info("Tenant registered successfully with id {}", savedTenant.getId());
         return savedTenant;
     }
+
+
+
 
 
     @Transactional(readOnly = true)

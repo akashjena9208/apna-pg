@@ -1,4 +1,4 @@
-# Apna PG – Owner & PG Management Module
+# Apna PG – -m"
 
 ## Project Overview
 - The Owner module allows PG owners to register themselves, create PGs, add rooms, and manage tenants in the Apna PG system.
@@ -199,7 +199,10 @@ URL: /api/owners/tenant/{tenantId}/download-aadhaar
 Method: GET
 
 Description: Allows owners to download tenant Aadhaar securely
-```
+
+````
+## 🏗️ Structure Diagram
+````
 Frontend (Owner)
 -----------------------------------------
 | Fill registration form                |
@@ -241,3 +244,4 @@ Service: OwnerService
 Frontend receives response and confirms registration
 
 PG / Room / Tenant flows follow similar service mapping for CRUD operations.
+````

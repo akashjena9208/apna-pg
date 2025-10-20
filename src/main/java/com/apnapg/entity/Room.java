@@ -1,5 +1,7 @@
 package com.apnapg.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,10 +26,12 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "pg_id")
+    @JsonBackReference
     private PG pg;
 
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Tenant> tenants;
 }
 

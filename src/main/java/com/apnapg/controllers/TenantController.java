@@ -22,11 +22,22 @@ public class TenantController {
 
     private final TenantService tenantService;
 
-    //    @PostMapping("/register")
+
+//    @PostMapping("/register")
 //    public ResponseEntity<TenantResponseDTO> registerTenant(
 //            @RequestPart("tenant") @Valid TenantRegistrationDTO tenantDTO,
 //            @RequestPart("aadhaarFile") MultipartFile aadhaarFile
 //    ) throws Exception {
+//
+//        log.info("Received registration request for email {}", tenantDTO.email());
+//
+//        byte[] bytes = aadhaarFile.getBytes();
+//        String fileName = aadhaarFile.getOriginalFilename();
+//
+//        TenantResponseDTO response = tenantService.registerTenant(tenantDTO, bytes, fileName);
+//        return ResponseEntity.ok(response);
+//    }
+
     @PostMapping("/register")
     public ResponseEntity<TenantResponseDTO> registerTenant(
             @RequestPart("tenant") @Valid TenantRegistrationDTO tenantDTO,
