@@ -136,4 +136,32 @@ public class OwnerController {
         return ResponseEntity.ok(tenants);
     }
 
+    @PutMapping("/tenant/{tenantId}/assign-room/{roomId}")
+    public ResponseEntity<TenantResponseDTO> assignTenantToRoom(
+            @PathVariable Long tenantId,
+            @PathVariable Long roomId
+    ) {
+        Tenant tenant = tenantService.assignTenantToRoom(tenantId, roomId);
+
+        TenantResponseDTO response = new TenantResponseDTO(
+                tenant.getId(),
+                tenant.getFirstName(),
+                tenant.getLastName(),
+                tenant.getEmail(),
+                tenant.getPhoneNumber(),
+                tenant.getAadhaarUrl()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{ownerId}/rooms/availability")
+    public ResponseEntity<List<RoomAvailabilityDTO>> getRoomAvailability(
+            @PathVariable Long ownerId) {
+
+        return ResponseEntity.ok(
+                roomService.getRoomAvailabilityByOwner(ownerId)
+        );
+
+    }
 }

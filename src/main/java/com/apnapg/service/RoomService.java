@@ -1,5 +1,6 @@
 package com.apnapg.service;
 
+import com.apnapg.dto.RoomAvailabilityDTO;
 import com.apnapg.dto.RoomCreateDTO;
 import com.apnapg.entity.PG;
 import com.apnapg.entity.Room;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -47,4 +50,20 @@ public class RoomService {
 
         log.info("{} bed(s) allocated in room {}", beds, room.getRoomNumber());
     }
+
+    public List<RoomAvailabilityDTO> getRoomAvailabilityByOwner(Long ownerId) {
+
+        return roomRepository.findAllByPg_Owner_Id(ownerId)
+                .stream()
+                .map(room -> new RoomAvailabilityDTO(
+                        room.getPg().getId(),
+                        room.getPg().getName(),
+                        room.getId(),
+                        room.getRoomNumber(),
+                        room.getTotalBeds(),
+                        room.getAvailableBeds()
+                ))
+                .toList();
+    }
+
 }

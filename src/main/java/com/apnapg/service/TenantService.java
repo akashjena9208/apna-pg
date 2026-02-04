@@ -2,10 +2,12 @@ package com.apnapg.service;
 
 import com.apnapg.dto.TenantRegistrationDTO;
 import com.apnapg.dto.TenantResponseDTO;
+import com.apnapg.entity.Room;
 import com.apnapg.entity.Tenant;
 import com.apnapg.entity.User;
 import com.apnapg.enums.Role;
 import com.apnapg.mapper.TenantMapper;
+import com.apnapg.repositories.RoomRepository;
 import com.apnapg.repositories.TenantRepository;
 import com.apnapg.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class TenantService {
     private final TenantRepository tenantRepository;
     private final UserRepository userRepository;
     private final FileStorageService fileStorageService;
+    private final RoomRepository roomRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 //    @Transactional
@@ -97,6 +100,29 @@ public class TenantService {
 
     public List<Tenant> getAllTenantsByOwnerId(Long ownerId) {
         return tenantRepository.findAllByRoom_Pg_Owner_Id(ownerId);
+    }
+
+
+    @Transactional
+    public Tenant assignTenantToRoom(Long tenantId, Long roomId) {
+
+        Tenant tenant = tenantRepository.findById(tenantId)
+                .orElseThrow(() -> new IllegalArgumentException("Tenant not found"));
+
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Room not found"));
+
+        if (room.getAvailableBeds() <= 0) {
+            throw new IllegalArgumentException("No beds available in this room");
+        }
+
+        // Assign
+        tenant.setRoom(room);
+
+        // Reduce bed count
+        room.setAvailableBeds(room.getAvailableBeds() - 1);
+
+        return tenantRepository.save(tenant);
     }
 
 //    public List<Tenant> getAllTenantsByOwnerId(Long ownerId) {
