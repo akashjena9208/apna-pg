@@ -29,7 +29,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm ->
                         sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
@@ -45,6 +45,7 @@ public class SecurityConfig {
                                 "/api/pgs/search",
                                 "/api/contact/**"
                         ).permitAll()
+                        .requestMatchers("/api/auth/refresh", "/api/auth/logout").permitAll()
                         .requestMatchers("/api/owners/**").hasRole("OWNER")
                         .requestMatchers("/api/tenants/**").hasRole("TENANT")
                         .anyRequest().authenticated()
