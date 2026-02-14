@@ -16,13 +16,19 @@ public class CustomUserDetails implements UserDetails {
         this.user = user;
     }
 
-
-
+    // ================================
+    // AUTHORITIES (ROLE → Spring Role)
+    // ================================
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
+        return List.of(
+                new SimpleGrantedAuthority("ROLE_" + user.getRole().name())
+        );
     }
 
+    // ================================
+    // CREDENTIALS
+    // ================================
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -30,21 +36,39 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail(); // email = username
+        return user.getEmail(); // Email is login ID
+    }
+//    @Override
+//    public String getUsername() {
+//        return user.getId().toString();
+//    }
+
+    // ================================
+    // ACCOUNT STATUS (REAL VALUES)
+    // ================================
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // Not implementing expiry logic
     }
 
     @Override
-    public boolean isAccountNonExpired() { return true; }
+    public boolean isAccountNonLocked() {
+        return user.isAccountNonLocked();
+    }
 
     @Override
-    public boolean isAccountNonLocked() { return true; }
+    public boolean isCredentialsNonExpired() {
+        return true; // Not implementing credential expiry
+    }
 
     @Override
-    public boolean isCredentialsNonExpired() { return true; }
+    public boolean isEnabled() {
+        return user.isEnabled();
+    }
 
-    @Override
-    public boolean isEnabled() { return true; }
-
+    // ================================
+    // EXTRA HELPERS (OPTIONAL)
+    // ================================
     public Long getUserId() {
         return user.getId();
     }
@@ -52,4 +76,24 @@ public class CustomUserDetails implements UserDetails {
     public String getRole() {
         return user.getRole().name();
     }
+
+    public String getAuthProvider() {
+        return user.getAuthProvider().name();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Long getTenantId() {
+        return user.getTenant() != null ? user.getTenant().getId() : null;
+    }
+
+    public Long getOwnerId() {
+        return user.getOwner() != null ? user.getOwner().getId() : null;
+    }
+
+
+
+
 }
