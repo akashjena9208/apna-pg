@@ -1,0 +1,224 @@
+{
+    "info": {
+        "name": "Apna PG Backend API Collection",
+        "_postman_id": "apna-pg-backend-collection",
+        "description": "Complete API flow for Apna PG Backend (Auth, Owner, Tenant, PG, Room, Complaint, Chat)",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "1. Owner Register",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/owners/register",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "owners",
+                        "register"
+                    ]
+                },
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"firstName\": \"Akash\",\n  \"lastName\": \"Jena\",\n  \"email\": \"owner@example.com\",\n  \"phoneNumber\": \"9876543210\",\n  \"address\": \"KIIT Road Bhubaneswar\",\n  \"businessName\": \"Akash PG\",\n  \"gstNumber\": \"\",\n  \"password\": \"Password@123\"\n}"
+                }
+            }
+        },
+        {
+            "name": "2. Login",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/auth/login",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "auth",
+                        "login"
+                    ]
+                },
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"email\": \"owner@example.com\",\n  \"password\": \"Password@123\"\n}"
+                }
+            }
+        },
+        {
+            "name": "3. Create PG",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/pgs",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "pgs"
+                    ]
+                },
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"name\": \"Akash Premium PG\",\n  \"address\": \"KIIT Road Bhubaneswar\",\n  \"city\": \"Bhubaneswar\",\n  \"contactNumber\": \"9876543210\",\n  \"rentPerMonth\": 6000,\n  \"totalRooms\": 10\n}"
+                }
+            }
+        },
+        {
+            "name": "4. Create Room",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/rooms/1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "rooms",
+                        "1"
+                    ]
+                },
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"roomNumber\": \"101A\",\n  \"totalBeds\": 4\n}"
+                }
+            }
+        },
+        {
+            "name": "5. Search PG",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:8080/api/pgs/search?city=Bhubaneswar&page=0&size=5",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "pgs",
+                        "search"
+                    ],
+                    "query": [
+                        {
+                            "key": "city",
+                            "value": "Bhubaneswar"
+                        },
+                        {
+                            "key": "page",
+                            "value": "0"
+                        },
+                        {
+                            "key": "size",
+                            "value": "5"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "6. Create Complaint (Tenant)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{tenantAccessToken}}"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/complaints",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "complaints"
+                    ]
+                },
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"pgId\": 1,\n  \"message\": \"Water supply issue in my room.\"\n}"
+                }
+            }
+        },
+        {
+            "name": "7. Get Conversation",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/chat/conversation/2",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "chat",
+                        "conversation",
+                        "2"
+                    ]
+                }
+            }
+        }
+    ]
+}
