@@ -427,7 +427,6 @@ import com.apnapg.entity.User;
 import com.apnapg.exceptions.BadRequestException;
 import com.apnapg.exceptions.ForbiddenOperationException;
 import com.apnapg.exceptions.ResourceNotFoundException;
-import com.apnapg.mappers.ChatMessageMapper;
 import com.apnapg.repository.ChatMessageRepository;
 import com.apnapg.repository.UserRepository;
 import com.apnapg.security.SecurityUtils;

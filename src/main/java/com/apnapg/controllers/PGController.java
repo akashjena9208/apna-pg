@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class PGController {
 
     private final PGService pgService;
-    private final FileStorageService  fileStorageService;
+    private final FileStorageService fileStorageService;
 
     // ======================================================
     // CREATE PG (OWNER ONLY)

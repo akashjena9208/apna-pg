@@ -8,7 +8,6 @@ import com.apnapg.entity.PG;
 import com.apnapg.exceptions.ConflictException;
 import com.apnapg.exceptions.ForbiddenOperationException;
 import com.apnapg.exceptions.ResourceNotFoundException;
-import com.apnapg.mappers.PGMapper;
 import com.apnapg.repository.OwnerRepository;
 import com.apnapg.repository.PGRepository;
 import com.apnapg.service.PGService;

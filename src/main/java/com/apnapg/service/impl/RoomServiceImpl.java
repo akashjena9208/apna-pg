@@ -6,7 +6,6 @@ import com.apnapg.entity.Room;
 import com.apnapg.exceptions.ConflictException;
 import com.apnapg.exceptions.ForbiddenOperationException;
 import com.apnapg.exceptions.ResourceNotFoundException;
-import com.apnapg.mappers.RoomMapper;
 import com.apnapg.repository.PGRepository;
 import com.apnapg.repository.RoomRepository;
 import com.apnapg.security.SecurityUtils;

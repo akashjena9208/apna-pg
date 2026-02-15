@@ -111,20 +111,20 @@
         </dependency>
 
 
-        <!-- MapStruct -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>1.5.5.Final</version>
-        </dependency>
+<!--        &lt;!&ndash; MapStruct &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.mapstruct</groupId>-->
+<!--            <artifactId>mapstruct</artifactId>-->
+<!--            <version>1.5.5.Final</version>-->
+<!--        </dependency>-->
 
-        <!-- Annotation Processor -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>1.5.5.Final</version>
-            <scope>provided</scope>
-        </dependency>
+<!--        &lt;!&ndash; Annotation Processor &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.mapstruct</groupId>-->
+<!--            <artifactId>mapstruct-processor</artifactId>-->
+<!--            <version>1.5.5.Final</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
 
 
         <!-- Tests -->

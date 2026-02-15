@@ -1,10 +1,7 @@
 package com.apnapg.dto.room;
-
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-
 public record RoomUpdateDTO(
 
         @NotBlank(message = "Room number is required")

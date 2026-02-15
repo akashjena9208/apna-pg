@@ -1,11 +1,8 @@
 package com.apnapg.dto.auth;
-//package com.apnapg.dto.auth;
-//public record UserResponseDTO(
-//        Long id,
-//        String email,
-//        String role,
-//        boolean enabled
-//) {}
+
+import lombok.Builder;
+
+@Builder
 public record UserResponseDTO(
         Long id,
         String email,
@@ -13,3 +10,4 @@ public record UserResponseDTO(
         boolean enabled,
         boolean accountNonLocked
 ) {}
+

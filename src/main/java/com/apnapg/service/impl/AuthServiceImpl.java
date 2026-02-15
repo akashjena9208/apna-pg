@@ -164,6 +164,7 @@ import com.apnapg.dto.auth.LoginResponse;
 import com.apnapg.dto.auth.RefreshTokenResponse;
 import com.apnapg.entity.RefreshToken;
 import com.apnapg.entity.User;
+import com.apnapg.enums.AuthProvider;
 import com.apnapg.exceptions.UnauthorizedException;
 import com.apnapg.repository.UserRepository;
 import com.apnapg.service.AuthService;
@@ -236,6 +237,16 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
+
+
+        // ===============================
+        // 1️⃣ Provider Check (IMPORTANT)
+        // ===============================
+//        if (user.getAuthProvider() != AuthProvider.LOCAL) {
+//            throw new UnauthorizedException(
+//                    "Please login using " + user.getAuthProvider().name()
+//            );
+//        }
 
         // 1️⃣ Check auto unlock
         if (!user.isAccountNonLocked()) {

@@ -1,48 +1,6 @@
 package com.apnapg.entity;
-
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.Instant;
-
-//
-//@Entity
-//@Table(
-//        name = "refresh_token",
-//        indexes = {
-//                @Index(name = "idx_refresh_user", columnList = "user_id"),
-//                @Index(name = "idx_refresh_token_hash", columnList = "token_hash")
-//        }
-//)
-//@Getter
-//@Setter
-//@Builder
-//@NoArgsConstructor
-//@AllArgsConstructor
-//public class RefreshToken {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//
-//    @Column(nullable = false, unique = true)
-//    private String tokenHash;
-//
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "user_id")
-//    private User user;
-//
-//    private Instant expiryDate;
-//    private boolean revoked;
-//    private Instant createdAt;
-//}
-//
-
-
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-
 import java.time.Instant;
 
 @Entity
@@ -58,7 +16,6 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//@SuperBuilder
 public class RefreshToken extends BaseEntity {
 
     @Id

@@ -1,6 +1,4 @@
 package com.apnapg.dto.room;
-
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.PositiveOrZero;
 

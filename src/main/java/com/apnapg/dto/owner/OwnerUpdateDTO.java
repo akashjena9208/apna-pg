@@ -1,8 +1,5 @@
 package com.apnapg.dto.owner;
-
-
 import jakarta.validation.constraints.*;
-
 public record OwnerUpdateDTO(
 
         @Size(min = 2, max = 50)

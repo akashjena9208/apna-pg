@@ -2,10 +2,6 @@ package com.apnapg.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
-
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "contact_messages")
 @Data

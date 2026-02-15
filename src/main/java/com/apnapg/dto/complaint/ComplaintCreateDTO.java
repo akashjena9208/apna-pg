@@ -1,21 +1,3 @@
-//package com.apnapg.dto;
-//
-//import jakarta.validation.constraints.*;
-//
-//public record ComplaintCreateDTO(
-//
-//        @NotNull
-//        Long tenantId,
-//
-//        @NotNull
-//        Long pgId,
-//
-//        @NotBlank
-//        @Size(min = 10, max = 1000)
-//        String message
-//
-//) {}
-
 package com.apnapg.dto.complaint;
 
 import jakarta.validation.constraints.*;

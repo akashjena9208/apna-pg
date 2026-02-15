@@ -1,54 +1,3 @@
-//package com.apnapg.entity;
-//
-//import com.fasterxml.jackson.annotation.JsonBackReference;
-//import com.fasterxml.jackson.annotation.JsonManagedReference;
-//import jakarta.persistence.*;
-//import jakarta.validation.constraints.Min;
-//import lombok.*;
-//
-//import java.util.List;
-//
-//
-//@Entity
-//@Table(name="rooms", indexes = {
-//        @Index(name="idx_room_pg", columnList="pg_id")
-//})
-//
-//@Getter
-//@Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Builder
-//@ToString(exclude={"pg","tenants"})
-//public class Room extends BaseEntity {
-//
-//    @Id
-//    @GeneratedValue(strategy=GenerationType.IDENTITY)
-//    private Long id;
-//
-//    @Column(length = 20, nullable = false)
-//    private String roomNumber;
-//
-//    @Column(nullable = false)@Min(1)
-//    private Integer totalBeds;
-//
-//    @Column(nullable = false)@Min(0)
-//    private Integer availableBeds;
-//
-//    @ManyToOne(fetch=FetchType.LAZY)
-//    @JoinColumn(name="pg_id", nullable=false)
-//    private PG pg;
-//
-//    @OneToMany(mappedBy="room", fetch=FetchType.LAZY,
-//            cascade=CascadeType.ALL)
-//    private List<Tenant> tenants;
-//
-//    @Version
-//    private Long version;
-//
-//}
-//
-//
 package com.apnapg.entity;
 
 import jakarta.persistence.*;
@@ -59,19 +8,12 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 @Entity
-@Table(
-        name = "rooms",
-        indexes = {
-                @Index(name = "idx_room_pg", columnList = "pg_id"),
-                @Index(name = "idx_room_number_pg", columnList = "roomNumber, pg_id", unique = true)
-        }
-)
+@Table(name = "rooms", indexes = {@Index(name = "idx_room_pg", columnList = "pg_id"), @Index(name = "idx_room_number_pg", columnList = "roomNumber, pg_id", unique = true)})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//@SuperBuilder
 @ToString(exclude = {"pg", "tenants"})
 public class Room extends BaseEntity {
 
@@ -93,19 +35,11 @@ public class Room extends BaseEntity {
 
     // Room belongs to a PG
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(
-            name = "pg_id",
-            nullable = false,
-            foreignKey = @ForeignKey(name = "fk_room_pg")
-    )
+    @JoinColumn(name = "pg_id", nullable = false, foreignKey = @ForeignKey(name = "fk_room_pg"))
     private PG pg;
 
     // Tenants assigned to this room
-    @OneToMany(
-            mappedBy = "room",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
-    )
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Tenant> tenants;
 
     // Prevent race conditions when assigning beds
@@ -113,11 +47,9 @@ public class Room extends BaseEntity {
     private Long version;
 
     protected void validate() {
-        if (totalBeds == null || availableBeds == null)
-            throw new IllegalStateException("Beds cannot be null");
+        if (totalBeds == null || availableBeds == null) throw new IllegalStateException("Beds cannot be null");
 
-        if (availableBeds > totalBeds)
-            throw new IllegalStateException("Available beds cannot exceed total beds");
+        if (availableBeds > totalBeds) throw new IllegalStateException("Available beds cannot exceed total beds");
     }
 
     @PrePersist

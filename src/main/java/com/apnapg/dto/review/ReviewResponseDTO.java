@@ -1,4 +1,5 @@
 package com.apnapg.dto.review;
+
 import java.time.Instant;
 
 public record ReviewResponseDTO(
@@ -15,5 +16,6 @@ public record ReviewResponseDTO(
 
         Instant createdAt
 
-) {}
+) {
+}
 

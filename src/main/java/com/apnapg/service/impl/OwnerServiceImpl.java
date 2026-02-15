@@ -8,7 +8,6 @@ import com.apnapg.enums.AuthProvider;
 import com.apnapg.enums.Role;
 import com.apnapg.exceptions.ConflictException;
 import com.apnapg.exceptions.ResourceNotFoundException;
-import com.apnapg.mappers.OwnerMapper;
 import com.apnapg.repository.OwnerRepository;
 import com.apnapg.repository.UserRepository;
 import com.apnapg.service.FileStorageService;

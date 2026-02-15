@@ -27,8 +27,8 @@
 //    private String lastName;
 //
 //
-////    @Column(nullable=false, unique=true)
-////    private String email;
+/// /    @Column(nullable=false, unique=true)
+/// /    private String email;
 //
 //    @Column(length=15)
 //    private String phoneNumber;
@@ -77,8 +77,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor @Builder
-//@SuperBuilder
+@AllArgsConstructor
+@Builder
 @ToString(exclude = {"user", "room"})
 public class Tenant extends BaseEntity {
 

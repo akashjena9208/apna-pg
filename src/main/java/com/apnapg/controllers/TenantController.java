@@ -2,11 +2,12 @@ package com.apnapg.controllers;
 
 import com.apnapg.dto.api.ApiResponse;
 import com.apnapg.dto.tenant.*;
+
 import com.apnapg.exceptions.BadRequestException;
 import com.apnapg.security.CustomUserDetails;
 import com.apnapg.service.TenantService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,19 +22,6 @@ public class TenantController {
     private final TenantService tenantService;
     private final ObjectMapper objectMapper;
 
-    // ==========================================
-    // REGISTER
-    // ==========================================
-//    @PostMapping("/register")
-//    public ApiResponse<TenantResponseDTO> register(
-//            @RequestBody TenantRegistrationDTO dto,
-//            @RequestParam String aadhaarUrl) {
-//
-//        return ApiResponse.success(
-//                tenantService.registerTenant(dto, aadhaarUrl),
-//                "Tenant registered successfully"
-//        );
-//    }
     @PostMapping(value = "/register", consumes = "multipart/form-data")
     public ApiResponse<TenantResponseDTO> registerTenant(
             @RequestPart("data") String data,
@@ -113,7 +101,6 @@ public class TenantController {
 
         return ApiResponse.success("Room allocated", "Success");
     }
-
 
 
     // ==========================================

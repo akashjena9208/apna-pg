@@ -8,8 +8,6 @@ import com.apnapg.entity.User;
 import com.apnapg.enums.AuthProvider;
 import com.apnapg.enums.Role;
 import com.apnapg.exceptions.*;
-
-import com.apnapg.mappers.TenantMapper;
 import com.apnapg.repository.UserRepository;
 import com.apnapg.repository.RoomRepository;
 import com.apnapg.repository.TenantRepository;

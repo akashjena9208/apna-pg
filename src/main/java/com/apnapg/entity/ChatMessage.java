@@ -19,7 +19,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//@SuperBuilder
 public class ChatMessage extends BaseEntity {
 
     @Id
