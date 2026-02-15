@@ -1,59 +1,73 @@
+////package com.apnapg.service;
+////import com.apnapg.dto.pg.*;
+////import java.util.List;
+////public interface PGService {
+////    PGResponse createPG(PGCreateRequest dto, Long ownerId);
+////    PGResponse updatePG(Long pgId, PGCreateRequest dto);
+////    void deletePG(Long pgId);
+////    PGResponse getPGDetails(Long pgId);
+////    List<PGResponse> searchPG(String city, Double minRent, Double maxRent);
+////}
+//package com.apnapg.service;
+//import com.apnapg.dto.pagination.PageResponseDTO;
+//import com.apnapg.dto.pg.*;
+//public interface PGService {
+//
+//    // Owner creates PG
+//    PGResponse createPG(PGCreateRequest request, Long ownerId);
+//    // Owner updates PG
+//    PGResponse updatePG(Long pgId, PGCreateRequest request);
+//
+//    // ======================================================
+//    // UPDATE PG (Owner scoped)
+//    // ======================================================
+//   // PGResponse updatePG(Long pgId, PGCreateRequest dto, Long ownerId);
+//
+//    // Get single PG details
+//    PGResponse getPG(Long pgId);
+//    // Delete PG (only if no active rooms)
+//    void deletePG(Long pgId);
+//
+//    // ======================================================
+//    // DELETE PG (Owner scoped + safety)
+//    // ======================================================
+//   // void deletePG(Long pgId, Long ownerId);
+//
+//    // Search / list PGs with pagination
+//    PageResponseDTO<PGResponse> searchPGs(
+//            PGSearchDTO searchDTO,
+//            int page,
+//            int size
+//    );
+//}
 package com.apnapg.service;
 
-import com.apnapg.dto.PGCreateRequest;
-import com.apnapg.entity.Owner;
-import com.apnapg.entity.PG;
-import com.apnapg.mapper.PGMapper;
-import com.apnapg.repositories.OwnerRepository;
-import com.apnapg.repositories.PGRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
+import com.apnapg.dto.pagination.PageResponseDTO;
+import com.apnapg.dto.pg.PGCreateRequest;
+import com.apnapg.dto.pg.PGResponse;
+import com.apnapg.dto.pg.PGSearchDTO;
 
-import java.util.ArrayList;
+public interface PGService {
 
-import java.util.Arrays;
-import java.util.List;
+    // Create PG (Owner scoped)
+    PGResponse createPG(PGCreateRequest request, Long ownerId);
 
-@Service
-@RequiredArgsConstructor
-@Slf4j
-public class PGService {
+    // Update PG (Owner scoped)
+    PGResponse updatePG(Long pgId, PGCreateRequest request, Long ownerId);
 
-    private final PGRepository pgRepository;
-    private final OwnerRepository ownerRepository;
-    private final FileStorageService fileStorageService;
+    // Get single PG
+    PGResponse getPG(Long pgId);
 
-    @Transactional
-    public PG createPG(Long ownerId, PGCreateRequest dto, List<MultipartFile> images) throws Exception {
-        log.info("Creating PG '{}' for owner {}", dto.name(), ownerId);
+    // Delete PG (Owner scoped + safety check)
+    void deletePG(Long pgId, Long ownerId);
 
-        Owner owner = ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new IllegalArgumentException("Owner not found with id " + ownerId));
+    // Search PGs with pagination
+    PageResponseDTO<PGResponse> searchPGs(
+            PGSearchDTO searchDTO,
+            int page,
+            int size
+    );
 
-        List<String> imageUrls = new ArrayList<>();
-        if (images != null) {
-            for (MultipartFile image : images) {
-                String url = fileStorageService.saveFile(image.getBytes(), image.getOriginalFilename());
-                imageUrls.add(url);
-            }
-        }
+    void addImageToPG(Long pgId, Long ownerId, String fileName);
 
-        PG pg = PGMapper.toEntity(dto, imageUrls, owner);
-        PG savedPG = pgRepository.save(pg);
-
-        log.info("PG '{}' created successfully with id {}", savedPG.getName(), savedPG.getId());
-        return savedPG;
-    }
-
-    public List<PG> searchPGs(String city, int rentMax) {
-        return pgRepository.findByCityContainingIgnoreCaseAndRentPerMonthLessThanEqual(city, rentMax);
-    }
-
-
-    public List<PG> getPGsByOwner(Long ownerId) {
-        return pgRepository.findByOwnerId(ownerId);
-    }
 }

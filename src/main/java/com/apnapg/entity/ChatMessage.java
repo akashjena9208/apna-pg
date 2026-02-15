@@ -1,31 +1,53 @@
 package com.apnapg.entity;
 
+import com.apnapg.entity.BaseEntity;
+import com.apnapg.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "chat_messages")
-@Data
-@Builder
+@Table(
+        name = "chat_messages",
+        indexes = {
+                @Index(name = "idx_chat_conversation_time",
+                        columnList = "conversationId, createdAt")
+        }
+)
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatMessage {
+@Builder
+public class ChatMessage extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String senderEmailId; // tenant or owner email
+    @Column(nullable = false, length = 100)
+    private String conversationId;
 
-    @Column(nullable = false)
-    private String recipientEmailId; // tenant or owner email
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "sender_id")
+    private User sender;
 
-    @Column(length = 2000)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "recipient_id")
+    private User recipient;
+
+    @Column(nullable = false, length = 2000)
     private String message;
 
-    private LocalDateTime timestamp;
+    @Column(nullable = false)
+    private boolean seen = false;
 
-    private Boolean seen = false;
+    @PrePersist
+    @PreUpdate
+    private void validate() {
+        if (sender != null && recipient != null &&
+                sender.getId().equals(recipient.getId())) {
+            throw new IllegalStateException("Sender and recipient cannot be the same");
+        }
+    }
 }

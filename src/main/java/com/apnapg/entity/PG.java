@@ -1,42 +1,60 @@
 package com.apnapg.entity;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-
 @Entity
-@Table(name = "pgs")
+@Table(name = "pgs", indexes = {
+        @Index(name = "idx_pg_city", columnList = "city"),
+        @Index(name = "idx_pg_owner", columnList = "owner_id")
+})
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PG {
+@Builder
+@ToString(exclude = {"owner", "rooms"})
+public class PG extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 100)
     private String name;
+
+    @Column(nullable = false, length = 255)
     private String address;
+
+    @Column(nullable = false, length = 150)
     private String city;
+
     private String contactNumber;
-    private Double rentPerMonth;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal rentPerMonth;
+
     private Integer totalRooms;
 
-    @ElementCollection
+    // 🔥 FIX 1: Initialize imageUrls
+    @Builder.Default
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "pg_images", joinColumns = @JoinColumn(name = "pg_id"))
     @Column(name = "image_url")
-    private List<String> imageUrls;
+    private List<String> imageUrls = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    @JsonBackReference
+    // 🔥 FIX 2: Initialize rooms list
+    @Builder.Default
+    @OneToMany(
+            mappedBy = "pg",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Room> rooms = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
     private Owner owner;
-
-    @OneToMany(mappedBy = "pg", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Room> rooms;
 }

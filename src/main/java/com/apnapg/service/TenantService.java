@@ -1,134 +1,27 @@
 package com.apnapg.service;
 
-import com.apnapg.dto.TenantRegistrationDTO;
-import com.apnapg.dto.TenantResponseDTO;
-import com.apnapg.entity.Room;
-import com.apnapg.entity.Tenant;
-import com.apnapg.entity.User;
-import com.apnapg.enums.Role;
-import com.apnapg.mapper.TenantMapper;
-import com.apnapg.repositories.RoomRepository;
-import com.apnapg.repositories.TenantRepository;
-import com.apnapg.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.apnapg.dto.tenant.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+public interface TenantService {
 
-@Service
-@RequiredArgsConstructor
-@Slf4j
-public class TenantService {
+    //TenantResponseDTO registerTenant(TenantRegistrationDTO dto, String aadhaarUrl);
+    TenantResponseDTO registerTenant(
+            TenantRegistrationDTO dto,
+            MultipartFile aadhaarFile
+    );
 
-    private final TenantRepository tenantRepository;
-    private final UserRepository userRepository;
-    private final FileStorageService fileStorageService;
-    private final RoomRepository roomRepository;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-//    @Transactional
-//    public TenantResponseDTO registerTenant(TenantRegistrationDTO dto, byte[] aadhaarFileBytes, String fileName) {
-//        log.info("Registering tenant with email {}", dto.email());
-//
-//        if (userRepository.findByEmail(dto.email()).isPresent()) {
-//            throw new IllegalArgumentException("User with email " + dto.email() + " already exists.");
-//        }
-//
-//        String encryptedPassword = passwordEncoder.encode(dto.password());
-//        User user = User.builder()
-//                .email(dto.email())
-//                .password(encryptedPassword)
-//                .role(Role.TENANT)
-//                .build();
-//        userRepository.save(user);
-//
-//        String aadhaarUrl = fileStorageService.saveFile(aadhaarFileBytes, fileName);
-//        Tenant tenant = TenantMapper.toEntity(dto, aadhaarUrl, user);
-//        Tenant savedTenant = tenantRepository.save(tenant);
-//
-//        log.info("Tenant registered successfully with id {}", savedTenant.getId());
-//
-//        return new TenantResponseDTO(
-//                savedTenant.getId(),
-//                savedTenant.getFirstName(),
-//                savedTenant.getLastName(),
-//                savedTenant.getEmail(),
-//                savedTenant.getPhoneNumber(),
-//                savedTenant.getAadhaarUrl()
-//        );
-//    }
+    TenantResponseDTO getTenantProfile(Long tenantId);
 
-    @Transactional
-    public Tenant registerTenant(TenantRegistrationDTO dto, byte[] aadhaarFileBytes, String fileName) {
-        log.info("Registering tenant with email {}", dto.email());
+    //TenantResponseDTO updateTenant(Long tenantId, TenantRegistrationDTO dto);
+    TenantResponseDTO updateTenant(Long tenantId, TenantUpdateDTO dto);
 
-        if (userRepository.findByEmail(dto.email()).isPresent()) {
-            throw new IllegalArgumentException("User with email " + dto.email() + " already exists.");
-        }
 
-        String encryptedPassword = passwordEncoder.encode(dto.password());
-        User user = User.builder()
-                .email(dto.email())
-                .password(encryptedPassword)
-                .role(Role.TENANT)
-                .build();
-        userRepository.save(user);
-
-        String aadhaarUrl = fileStorageService.saveFile(aadhaarFileBytes, fileName);
-        Tenant tenant = TenantMapper.toEntity(dto, aadhaarUrl, user);
-        Tenant savedTenant = tenantRepository.save(tenant);
-
-        log.info("Tenant registered successfully with id {}", savedTenant.getId());
-        return savedTenant;
-    }
+//    void allocateRoom(Long tenantId, Long roomId);
+        void allocateRoom(Long tenantId, Long roomId, Long ownerId);
 
 
 
-
-
-    @Transactional(readOnly = true)
-    public Tenant getTenantById(Long tenantId) {
-        return tenantRepository.findById(tenantId)
-                .orElseThrow(() -> new IllegalArgumentException("Tenant not found with id " + tenantId));
-    }
-
-
-
-
-    public List<Tenant> getAllTenantsByOwnerId(Long ownerId) {
-        return tenantRepository.findAllByRoom_Pg_Owner_Id(ownerId);
-    }
-
-
-    @Transactional
-    public Tenant assignTenantToRoom(Long tenantId, Long roomId) {
-
-        Tenant tenant = tenantRepository.findById(tenantId)
-                .orElseThrow(() -> new IllegalArgumentException("Tenant not found"));
-
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException("Room not found"));
-
-        if (room.getAvailableBeds() <= 0) {
-            throw new IllegalArgumentException("No beds available in this room");
-        }
-
-        // Assign
-        tenant.setRoom(room);
-
-        // Reduce bed count
-        room.setAvailableBeds(room.getAvailableBeds() - 1);
-
-        return tenantRepository.save(tenant);
-    }
-
-//    public List<Tenant> getAllTenantsByOwnerId(Long ownerId) {
-//        return tenantRepository.findAllByOwnerId(ownerId);
-//    }
-
-
-
+    void vacateRoom(Long tenantId);
 }

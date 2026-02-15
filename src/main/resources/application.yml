@@ -1,26 +1,74 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/apnapgdb
-    username: postgres
-    password: Akash@2002
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-
-  servlet:
-    multipart:
-      max-file-size: 5MB
-      max-request-size: 10MB
-
-file:
-  upload-dir: uploads
-
-logging:
-  level:
-    root: INFO
-    com.apnapg: DEBUG
+##spring:
+##  datasource:
+##    url: jdbc:postgresql://localhost:5432/apnapgdbs
+##    username: postgres
+##    password: Akash@2002
+##    driver-class-name: org.postgresql.Driver
+##  jpa:
+##    hibernate:
+##      ddl-auto: update
+##    show-sql: true
+##    properties:
+##      hibernate:
+##        format_sql: true
+##
+##  servlet:
+##    multipart:
+##      max-file-size: 5MB
+##      max-request-size: 10MB
+##
+##file:
+##  upload-dir: uploads
+##
+##logging:
+##  level:
+##    root: INFO
+##    com.apnapg: DEBUG
+##
+##app:
+##  jwt:
+##    secret: your-very-long-secret-key-minimum-32-characters
+##    access-expiration: 900000      # 15 min
+##    refresh-expiration: 604800000  # 7 days
+##
+##  upload:
+##    dir: uploads
+##
+##
+##
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/apnapgdbsss
+#    username: postgres
+#    password: Akash@2002
+#    #password: ${DB_PASSWORD}   # 🔐 use env variable
+#    driver-class-name: org.postgresql.Driver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update   # ⚠ change to "validate" in production
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#
+#  servlet:
+#    multipart:
+#      max-file-size: 5MB
+#      max-request-size: 10MB
+#
+#logging:
+#  level:
+#    root: INFO
+#    com.apnapg: DEBUG
+#
+#app:
+#  jwt:
+#    # 🔐 Use 64+ char secret in production
+#    #secret: ${JWT_SECRET}
+#    secret: your-very-long-secret-key-minimum-32-characters
+#    access-expiration: 900000      # 15 minutes
+#    refresh-expiration: 604800000  # 7 days
+#
+#  upload:
+#    dir: uploads
